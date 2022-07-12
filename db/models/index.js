@@ -8,6 +8,7 @@ function setupModels(sequelize) {
   Customer.init(CustomerSchema, Customer.config(sequelize));
 
   //we need to send the associations, after the inits
+  User.associate(sequelize.models);
   Customer.associate(sequelize.models);
 }
 

@@ -30,7 +30,9 @@ class UserService {
     // return result.rows;
 
     //Here weuse the ORM with the method findAll
-    const result = await models.User.findAll();
+    const result = await models.User.findAll({
+      include: ['customer'],
+    });
     return result;
   }
 
