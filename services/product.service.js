@@ -2,7 +2,7 @@ const faker = require('faker');
 const boom = require('@hapi/boom');
 
 // const pool = require('../libs/postgres.pool'); now we use sequelize
-const sequelize = require('../libs/sequelize');
+const { models } = require('../libs/sequelize');
 
 class ProductsService {
   constructor() {
@@ -29,18 +29,21 @@ class ProductsService {
   }
 
   async create(data) {
-    const newProduct = {
-      id: faker.datatype.uuid(),
-      ...data,
-    };
-    this.products.push(newProduct);
+    // const newProduct = {
+    //   id: faker.datatype.uuid(),
+    //   ...data,
+    // };
+    // this.products.push(newProduct);
+    const newProduct = await models.Product.create(data);
     return newProduct;
   }
 
   async find() {
-    const query = 'SELECT * FROM tasks';
-    const [data] = await sequelize.query(query);
-    return { data };
+    // const query = 'SELECT * FROM tasks';
+    const products = await models.Product.findAll({
+      include: ['category'],
+    });
+    return products;
   }
 
   async findOne(id) {
